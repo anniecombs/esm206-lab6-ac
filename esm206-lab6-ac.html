@@ -221,6 +221,39 @@ gp_2 &lt;- sample.int(30, size = 15, replace = TRUE)</code></pre>
 <div id="linear-regression" class="section level2">
 <h2>Linear Regression</h2>
 <p>Simple linear regression (single dependent variable and a single independent variable)</p>
+<p>Find a linear regression model using ordinary least squares describing the relationsip between flipper length and body mass for these penguins</p>
+<p>3 pieces: type of model what is the relationship to model (DV ~ IV(s)) where is the data that is used to create this model</p>
+<pre class="r"><code>penguin_lm &lt;- lm(body_mass_g ~ flipper_length_mm, data = penguins)</code></pre>
+<p>y = mx + b</p>
+<p>y = beta 1 + beta 0 + error</p>
+<p>x/B1 = flipper length y = body mass</p>
+<p>body mass = 49.7 * (flipper length) - 5780.83 g (y intercept)</p>
+<p>For every 1 mm increase in flipper length, I expect a 49.7 gram increase in body mass.</p>
+<p>units for 49.7 g/mm</p>
+<p>If flipper length is 0, this model predicts that its body mass would be -5780.83 g which is impossible. All models are wrong adn extrapolation is risky.</p>
+<p>How would I actually look at the values? console: penguin_lm<span class="math inline">\(coefficients single element in console: penguin_lm\)</span>coefficients[2]</p>
+<div id="broom-package-returns-model-outputs-as-tidy-data-frames" class="section level3">
+<h3>broom package returns model outputs as tidy data frames</h3>
+<pre class="r"><code>penguin_lm_tidy &lt;- broom::tidy(penguin_lm)
+
+penguin_lm_tidy</code></pre>
+<pre><code>## # A tibble: 2 × 5
+##   term              estimate std.error statistic   p.value
+##   &lt;chr&gt;                &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
+## 1 (Intercept)        -5781.     306.       -18.9 5.59e- 55
+## 2 flipper_length_mm     49.7      1.52      32.7 4.37e-107</code></pre>
+<pre class="r"><code>broom::glance(penguin_lm) # model-wide indicators of fit and uncertainty</code></pre>
+<pre><code>## # A tibble: 1 × 12
+##   r.squared adj.r.squared sigma statistic   p.value    df logLik   AIC   BIC
+##       &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1     0.759         0.758  394.     1071. 4.37e-107     1 -2528. 5063. 5074.
+## # … with 3 more variables: deviance &lt;dbl&gt;, df.residual &lt;int&gt;, nobs &lt;int&gt;</code></pre>
+<p>How can I actually include my model equation in a report?</p>
+<pre class="r"><code>extract_eq(model = penguin_lm, use_coefs = TRUE) # stores a version of the outcomes from that model that looks awesome when you knit</code></pre>
+<p><span class="math display">\[
+\operatorname{\widehat{body\_mass\_g}} = -5780.83 + 49.69(\operatorname{flipper\_length\_mm})
+\]</span></p>
+</div>
 </div>
 
 

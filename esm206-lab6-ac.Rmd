@@ -67,6 +67,66 @@ Simple linear regression (single dependent variable and a single independent var
 
 ggplot(data = penguins, aes( x = flipper_length_mm, y = body_mass_g))+
   geom_point()+
-  theme_minimal()
+  theme_minimal()+
+  geom_smooth(method = "lm")
+
+# this is DANGEROUS. it offers an interpretation of the model like you know how to explain it. be cautious of this. 
+
+# does it look like the linear relationship makes sense? do we have any concerns about this being a linear relationship? any biases due to outliers? does it seem like distances are pretty similar throughout the whole model?
+```
+
+Find a linear regression model using ordinary least squares describing the relationsip between flipper length and body mass for these penguins
+
+3 pieces:
+type of model
+what is the relationship to model (DV ~ IV(s))
+where is the data that is used to create this model
+
+```{r}
+penguin_lm <- lm(body_mass_g ~ flipper_length_mm, data = penguins)
+```
+
+y = mx + b
+
+y = beta 1 + beta 0 + error
+
+x/B1 = flipper length
+y = body mass
+
+body mass = 49.7 * (flipper length) - 5780.83 g (y intercept)
+
+For every 1 mm increase in flipper length, I expect a 49.7 gram increase in body mass.
+
+units for 49.7 g/mm
+
+If flipper length is 0, this model predicts that its body mass would be -5780.83 g which is impossible. All models are wrong adn extrapolation is risky.
+
+How would I actually look at the values?
+console: penguin_lm$coefficients
+single element in console: penguin_lm$coefficients[2]
+
+### broom package returns model outputs as tidy data frames
+
+```{r}
+penguin_lm_tidy <- broom::tidy(penguin_lm)
+
+penguin_lm_tidy
+
+broom::glance(penguin_lm) # model-wide indicators of fit and uncertainty
+```
+
+How can I actually include my model equation in a report?
+
+```{r}
+extract_eq(model = penguin_lm, use_coefs = TRUE) # stores a version of the outcomes from that model that looks awesome when you knit
+```
+
+```{r}
+plot(penguin_lm) # gives you diagnostic plots 
+
+# residual v fitted values = how far values exist from the model
+# scale v location asks does it look like residuals have equal variance across predicted model?
+# normal QQ talks about the value of the residuals
+# residuals v leverage = do any of these seem like theyre having a residual effect on the points that hold more weight toward the model output
 ```
 
