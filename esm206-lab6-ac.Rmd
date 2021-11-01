@@ -50,4 +50,9 @@ mwu <- wilcox.test(gp_1, gp_2)
 
 mwu
 ```
-p value means that there is a 28% chance that your sample ranks will be at least this different assuming that your samples came from populations with the same rank.
+p value means that there is a 28% chance that your sample ranks will be at least this different assuming that your samples came from populations with the same ranks (median).
+
+No significant difference in ranks/medians between group 1 and group 2.
+
+Median Scores for group 1: (M = 14) and group 2 (M = 12) did not differ significantly (Mann Whitney U test: U(df) = 86, p = 86, p = 0.28).
+
