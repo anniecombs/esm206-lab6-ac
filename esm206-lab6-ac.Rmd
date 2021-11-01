@@ -1,0 +1,53 @@
+---
+title: "esm206-lab6-ac"
+author: "Annie Combs"
+date: "November 1, 2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(palmerpenguins)
+library(tidyverse)
+library(broom)
+library(equatiomatic)
+```
+
+## Example of a rank-based test
+
+We'll make our own samples using a pseudorandom generator
+
+```{r}
+set.seed(1414)
+gp_1 <- sample.int(20, size = 15, replace = TRUE)
+
+set.seed(1424)
+gp_2 <- sample.int(30, size = 15, replace = TRUE)
+```
+
+```{r}
+hist(gp_1)
+
+hist(gp_2)
+```
+
+Try a t test
+```{r}
+t.test(gp_1, gp_2)
+```
+The p value means that there is a 19.8% chance that the sample means are at least this different by random chance, assuming that these two samples come from populations with the same mean.
+
+We will fail to reject (retain) the null hypothesis. >> there is no significant difference in means between group 1 and group 2 (say that on final)
+
+Warning: people get weirdly upset if you say "accept the null". If accept or reject the null comes up in your final, you will LOSE POINTS. 
+
+Compare this outcome to a rank-based test.
+
+## Mann Whitney U unpaired rank based test
+
+```{r}
+mwu <- wilcox.test(gp_1, gp_2)
+
+mwu
+```
+p value means that there is a 28% chance that your sample ranks will be at least this different assuming that your samples came from populations with the same rank.
